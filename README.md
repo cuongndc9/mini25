@@ -25,18 +25,6 @@ The interface is designed with a clean, light "glassmorphism" aesthetic, providi
 
 -   **Persistent History**: Your completed focus sessions are automatically saved to your browser. You can also **export** your history to a `.json` file for backup or **import** a history file to restore your data.
 
-## 📸 Screenshots
-
-Here's a glimpse of the clean, light-themed Mini25 interface.
-
-**Main Focus View:**
-*(The timer, task input, and music player ready for a focus session)*
-![Main application view showing the timer and music player](https-placeholder-for-screenshot-focus-view.png)
-
-**Progress Dashboard View:**
-*(Dashboard stats and a chart visualizing your weekly progress)*
-![Dashboard view showing stats and the 7-day progress chart](https-placeholder-for-screenshot-dashboard-view.png)
-
 ## 🛠️ Tech Stack
 
 -   React

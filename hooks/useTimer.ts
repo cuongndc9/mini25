@@ -34,7 +34,6 @@ export const useTimer = ({ onTimerEnd }: UseTimerProps) => {
     }
     
     setMode(nextMode);
-    setTimeLeft(TIMER_DURATIONS[nextMode]);
     setIsActive(true); // Auto-start next session
     onTimerEnd(completedMode);
   }, [mode, pomodoroCycle, onTimerEnd]);
@@ -44,20 +43,13 @@ export const useTimer = ({ onTimerEnd }: UseTimerProps) => {
       intervalRef.current = window.setInterval(() => {
         setTimeLeft((prevTime) => {
           if (prevTime <= 1) {
-            if (notificationAudioRef.current) {
-              notificationAudioRef.current.play();
-            }
-            if(intervalRef.current) clearInterval(intervalRef.current);
+            notificationAudioRef.current?.play().catch(e => console.error("Error playing sound:", e));
             switchMode();
             return 0;
           }
           return prevTime - 1;
         });
       }, 1000);
-    } else {
-      if (intervalRef.current) {
-        clearInterval(intervalRef.current);
-      }
     }
 
     return () => {
@@ -65,13 +57,17 @@ export const useTimer = ({ onTimerEnd }: UseTimerProps) => {
         clearInterval(intervalRef.current);
       }
     };
-  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isActive, switchMode]);
 
+  // Effect to reset time when mode changes
   useEffect(() => {
     setTimeLeft(TIMER_DURATIONS[mode]);
+  }, [mode]);
+  
+  // Effect to update document title when time changes
+  useEffect(() => {
     document.title = `${Math.floor(timeLeft / 60).toString().padStart(2, '0')}:${(timeLeft % 60).toString().padStart(2, '0')} - Focus`;
-  }, [mode, timeLeft]);
+  }, [timeLeft]);
 
   const start = () => setIsActive(true);
   const pause = () => setIsActive(false);
